@@ -3,4 +3,4 @@ project(Monopoly C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(Monopoly main.c)
+add_executable(Monopoly main.c player.c)
