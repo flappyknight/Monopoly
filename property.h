@@ -1,5 +1,7 @@
 #include <stdlib.h>
 
+#define TOTAL_ASSET_NUM 100
+
 
 typedef enum {land, factory, station} AssetTYPE;
 
@@ -32,6 +34,10 @@ void addAsset(int owner_id, Asset *asset);
 
 void popAsset(Asset * asset);
 
-void mortgage(Asset *asset);
+int mortgage(Asset *asset);
+
+int rent(Asset *asset);
+
+
 
 
