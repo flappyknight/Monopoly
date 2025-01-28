@@ -38,7 +38,8 @@ void movePlayer(Player *player, int place);
 
 void blockPlayer(Player *player);
 
-void freePlayer(Player *player);
+void enablePlayer(Player *player);
+
 
 
 
