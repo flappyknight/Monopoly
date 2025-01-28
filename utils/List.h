@@ -1,4 +1,5 @@
-#include <stdlib.h>>
+#include <stdlib.h>
+#include <stdbool.h>
 
 
 typedef struct{
@@ -15,14 +16,18 @@ typedef struct
     /* data */
 }List;
 
-List initList(void);
+List *initList(void);
 
-void addItem(List list, int num);
+void addItem(List *list, int num);
 
-void delItem(List list, int num);
+void emptyList(List * list);
 
-void insertItem(List list, int num);
+void delItem(List *list, int num);
 
-void freeList(List list);
+bool isEmpty(List *list);
+
+void insertItem(List *list, int position, int num);
+
+void freeList(List *list);
 
 // void popItem();
