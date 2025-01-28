@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
+#include "./utils/List.h"
 
 
 #define INITIAL_MONEY 20000
@@ -18,7 +19,7 @@ typedef struct {
     bool stagnant;
     double money;
     int position;
-    void *property;
+    List asset_list;
 
     float purchase_probability;
 
