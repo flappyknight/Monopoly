@@ -28,7 +28,7 @@ typedef  struct {
     char * description;
 } Asset;
 
-void initAsset(Asset * asset);
+void initAsset(Asset * assets);
 
 void addAsset(int owner_id, Asset *asset);
 
