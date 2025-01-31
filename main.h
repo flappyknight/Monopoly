@@ -1,13 +1,15 @@
 #pragma once
 #include <stdio.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "player.h"
 
-#define MAX_MAPITEM 100
+#define MAPITEM_COUNT 100
 #define MIN_STEP 1
 #define MAX_STEP 12
+
+#define START_POS 0
 
 typedef struct 
 {

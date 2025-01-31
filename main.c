@@ -3,8 +3,9 @@
 #define PLAYER_COUNT 4
 
 int main() {
+    srand(time(0));
 
-    MapItem map[MAX_MAPITEM];
+    MapItem map[MAPITEM_COUNT];
     initMap(map);
 
     Player players[PLAYER_COUNT];
@@ -29,3 +30,13 @@ int main() {
     round++;
     }
 }
+
+void initMap(MapItem *map){
+    MapItem *items = (MapItem *) malloc(MAPITEM_COUNT*sizeof(MapItem)); 
+}
+
+int getStep(){
+    return rand() % (MAX_STEP - MIN_STEP + 1) + MIN_STEP;
+}
+
+
