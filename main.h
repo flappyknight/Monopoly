@@ -5,6 +5,8 @@
 #include <time.h>
 #include "player.h"
 
+#define MAP_FILE "map.src"
+
 #define MAPITEM_COUNT 100
 #define MIN_STEP 1
 #define MAX_STEP 12
@@ -20,7 +22,7 @@ typedef struct
 } MapItem;
 
 
-void initMap(MapItem *map);
+void initMap(MapItem **map);
 
 int getStep();
 

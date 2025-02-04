@@ -25,7 +25,7 @@ typedef struct {
 
 } Player;
 
-void initializePlayer(Player * players, int n);
+void initializePlayer(Player ** players, int n);
 
 void updateMoney(Player *player, double money);
 

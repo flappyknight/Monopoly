@@ -5,11 +5,11 @@
 int main() {
     srand(time(0));
 
-    MapItem map[MAPITEM_COUNT];
-    initMap(map);
+    MapItem *map;
+    initMap(&map);
 
-    Player players[PLAYER_COUNT];
-    initializePlayer(players, PLAYER_COUNT);
+    Player *players;
+    initializePlayer(&players, PLAYER_COUNT);
 
     int round =0;
     Player *winner;
@@ -29,10 +29,14 @@ int main() {
         break;
     round++;
     }
+    free(map);
 }
 
-void initMap(MapItem *map){
-    MapItem *items = (MapItem *) malloc(MAPITEM_COUNT*sizeof(MapItem)); 
+void initMap(MapItem **map){
+    MapItem *items = (MapItem *) malloc(MAPITEM_COUNT*sizeof(MapItem));
+    FILE *resource = fopen(MAP_FILE,"rb");
+    fread(items, sizeof(MapItem), MAPITEM_COUNT, resource);
+    *(map) = items;
 }
 
 int getStep(){
