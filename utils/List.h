@@ -2,9 +2,9 @@
 #include <stdbool.h>
 
 
-typedef struct{
+typedef struct Node{
     int num;
-    Node *next;
+    struct Node*next;
 }
 Node;
 

@@ -43,4 +43,29 @@ int getStep(){
     return rand() % (MAX_STEP - MIN_STEP + 1) + MIN_STEP;
 }
 
+void interactive(Player *player, MapItem * map){
+    MapItem *current_pos =  (map+player->position);
+    if(current_pos->type==ASSET){
+
+    }
+    else if (current_pos->type==OPPO){
+
+    }
+    else if (current_pos->type==DEST){
+
+    }
+    else if (current_pos->type==START){
+
+    }
+    else if (current_pos->type==JAIL){
+
+    }
+    else if (current_pos->type==PARK){
+
+    }
+    else if (current_pos->type==TAX){
+
+    }
+
+}
 

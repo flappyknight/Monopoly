@@ -19,7 +19,7 @@ typedef struct {
     int stagnant;
     double money;
     int position;
-    List asset_list;
+    List *asset_list;
 
     float purchase_probability;
 

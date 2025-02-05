@@ -5,7 +5,8 @@ List *initList(void){
     list->count=0;
     list->head=NULL;
     list->tail=list->head;
-};
+    return list;
+}
 
 void addItem(List *list, int num){
     Node *node = (Node *) malloc(sizeof(Node));

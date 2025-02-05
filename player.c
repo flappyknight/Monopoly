@@ -5,10 +5,15 @@ void stepPlayer(Player *player, int steps){
 }
 
 void initializePlayer(Player ** players, int n){
-    Player * items = (Player *) malloc(MAX_PLAYERS*sizeof(Player));
-    for(int i=0; i<MAX_PLAYERS; i++){
-        items[i].asset_list;
-
+    Player * items = (Player *) malloc(n*sizeof(Player));
+    for(int i=0; i<n; i++){
+        items[i].asset_list=initList();
+        items[i].id = i;
+        items[i].money = INITIAL_MONEY;
+        items[i].name = NAMES[i];
+        items[i].position = INITIAL_POSITION;
+        items[i].stagnant = INITIAL_STAGNANT;
+        items[i].purchase_probability = INITIAL_PURCHASE_PROBABILITY;
     }
-
+    *players = items;
 }

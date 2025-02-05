@@ -11,12 +11,12 @@
 #define MIN_STEP 1
 #define MAX_STEP 12
 
-#define START_POS 0
+typedef enum {ASSET, OPPO, DEST, START, JAIL, PARK, TAX} MapType;
 
 typedef struct 
 {
     /* data */
-    char *type;
+    MapType type;
     int id;
     int position;
 } MapItem;
