@@ -1,5 +1,7 @@
 #include <stdlib.h>
 
+#define ASSET_FILE "asset.src"
+
 #define TOTAL_ASSET_NUM 100
 
 
@@ -8,7 +10,7 @@ typedef enum {land, factory, station} AssetTYPE;
 typedef  struct {
     AssetTYPE type;
     int id;
-    char * name;
+    char name[10];
     int position;
     int owner_id;
 
@@ -23,9 +25,8 @@ typedef  struct {
     int house_num;
     int hotel_num;
 
-    int mortgage_value;
-    bool is_mortgage;
-    char * description;
+    int is_mortgage;
+    char description[100];
 } Asset;
 
 void initAsset(Asset * assets);

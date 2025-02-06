@@ -5,7 +5,7 @@
 int main() {
     srand(time(0));
 
-    MapItem *map;
+    Map *map;
     initMap(&map);
 
     Player *players;
@@ -32,21 +32,31 @@ int main() {
     free(map);
 }
 
-void initMap(MapItem **map){
-    MapItem *items = (MapItem *) malloc(MAPITEM_COUNT*sizeof(MapItem));
-    FILE *resource = fopen(MAP_FILE,"rb");
-    fread(items, sizeof(MapItem), MAPITEM_COUNT, resource);
-    *(map) = items;
+void initMap(Map *map){
+    MapIndex *items = (MapIndex *) malloc(MAPITEM_COUNT * sizeof(MapIndex));
+    Asset *assets = (Asset *) malloc(TOTAL_ASSET_NUM * sizeof(Asset));
+    FILE *index_resource = fopen(MAP_FILE,"rb");
+    FILE *asset_resource = fopen(ASSET_FILE,"rb");
+    fread(items, sizeof(MapIndex), MAPITEM_COUNT, index_resource);
+    fread(items, sizeof(Asset), TOTAL_ASSET_NUM, asset_resource);
+    map->map_indexes=items;
+    map->assets = assets;
 }
 
 int getStep(){
     return rand() % (MAX_STEP - MIN_STEP + 1) + MIN_STEP;
 }
 
-void interactive(Player *player, MapItem * map){
-    MapItem *current_pos =  (map+player->position);
+void interactive(Player *player, Map * map){
+    MapIndex *current_pos =  (map->map_indexes + player->position);
     if(current_pos->type==ASSET){
-
+        Asset *current_asset = (map->assets)+(current_pos->id);
+        if (current_asset->owner_id==-1){
+//            该处地区无人拥有，是否购买
+        }
+        else{
+//            计算过路费，并且当前玩家向所属玩家付费
+        }
     }
     else if (current_pos->type==OPPO){
 

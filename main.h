@@ -4,6 +4,7 @@
 #include <string.h>
 #include <time.h>
 #include "player.h"
+#include "property.h"
 
 #define MAP_FILE "map.src"
 
@@ -19,14 +20,19 @@ typedef struct
     MapType type;
     int id;
     int position;
-} MapItem;
+} MapIndex;
+
+typedef struct {
+    MapIndex *map_indexes;
+    Asset *assets;
+} Map;
 
 
-void initMap(MapItem **map);
+void initMap(Map *map);
 
 int getStep();
 
-void interactive(Player *player, MapItem * map);
+void interactive(Player *player, Map * map);
 
 bool judge(Player *players);
 
