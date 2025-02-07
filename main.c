@@ -5,7 +5,7 @@
 int main() {
     srand(time(0));
 
-    Map *map;
+    Map map;
     initMap(&map);
 
     Player *players;
@@ -22,14 +22,14 @@ int main() {
 
             int steps = getStep();
             stepPlayer(current_player, steps);
-            interactive(current_player, map);
+            interactive(current_player, &map);
 
         }
     if (settlement(players, winner))
         break;
     round++;
     }
-    free(map);
+    freeMap(&map);
 }
 
 void initMap(Map *map){
@@ -47,12 +47,31 @@ int getStep(){
     return rand() % (MAX_STEP - MIN_STEP + 1) + MIN_STEP;
 }
 
+bool consider(Player * player, Asset * asset){
+    if(player->money > asset->price){
+        if( (rand() % 100 ) >=((int) player->purchase_probability*100)){
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
+
+void buyAsset(Player *player, Asset *asset){
+    updateMoney(player, -asset->price);
+    asset->owner_id = player->id;
+    addItem(player->asset_list, asset->id);
+}
+
 void interactive(Player *player, Map * map){
     MapIndex *current_pos =  (map->map_indexes + player->position);
     if(current_pos->type==ASSET){
         Asset *current_asset = (map->assets)+(current_pos->id);
         if (current_asset->owner_id==-1){
-//            该处地区无人拥有，是否购买
+//            考虑购买资产
+            if (consider(player, current_asset)){
+                buyAsset(player, current_asset);
+            }
         }
         else{
 //            计算过路费，并且当前玩家向所属玩家付费

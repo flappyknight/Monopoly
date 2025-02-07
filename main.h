@@ -27,12 +27,17 @@ typedef struct {
     Asset *assets;
 } Map;
 
+void freeMap(Map *map);
 
 void initMap(Map *map);
 
 int getStep();
 
+bool consider(Player * player, Asset * asset);
+
 void interactive(Player *player, Map * map);
+
+void buyAsset(Player *player, Asset *asset);
 
 bool judge(Player *players);
 
