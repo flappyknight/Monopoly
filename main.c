@@ -47,7 +47,14 @@ int getStep(){
     return rand() % (MAX_STEP - MIN_STEP + 1) + MIN_STEP;
 }
 
-bool consider(Player * player, Asset * asset){
+bool consider(Player * player){
+    if( (rand() % 100 ) >=((int) player->purchase_probability*100)){
+        return false;
+    }
+    return true;
+}
+
+bool considerUpgrade(Player * player, Asset * asset){
     if(player->money > asset->price){
         if( (rand() % 100 ) >=((int) player->purchase_probability*100)){
             return false;
@@ -58,9 +65,42 @@ bool consider(Player * player, Asset * asset){
 }
 
 void buyAsset(Player *player, Asset *asset){
+    if(player->money < asset->price){
+        printf("Not enough Money to buy this Land\n");
+        return;
+    }
     updateMoney(player, -asset->price);
     asset->owner_id = player->id;
     addItem(player->asset_list, asset->id);
+}
+
+void upgradeAsset(Player *player, Asset *asset){
+    if(asset->house_num<3){
+        if (player->money<asset->house_cost){
+            printf("Not enough Money to add a house\n");
+            return;
+        }
+        updateMoney(player, -asset->house_cost);
+        asset->house_num+=1;
+    }
+    else if(asset->hotel_num<3){
+        if (player->money<asset->hotel_cost){
+            printf("Not enough Money to add a hotel\n");
+            return;
+        }
+        updateMoney(player, -asset->hotel_cost);
+        asset->hotel_num+=1;
+    }
+    else{
+        printf("Failed to upgrade this land, This land is full of constructions\n");
+        return;
+    }
+}
+
+
+void payRent(Player*p1, Player*p2, int rent){
+    updateMoney(p1, -rent);
+    updateMoney(p2, rent);
 }
 
 void interactive(Player *player, Map * map){
@@ -69,12 +109,20 @@ void interactive(Player *player, Map * map){
         Asset *current_asset = (map->assets)+(current_pos->id);
         if (current_asset->owner_id==-1){
 //            考虑购买资产
-            if (consider(player, current_asset)){
+            if (consider(player)){
                 buyAsset(player, current_asset);
+            }
+        }
+        else if(current_asset->owner_id==player->id){
+//           考虑是否添置房屋或旅馆
+            if (consider(player)){
+                upgradeAsset(player, current_asset);
             }
         }
         else{
 //            计算过路费，并且当前玩家向所属玩家付费
+            Player *owner =  player+(current_asset->owner_id - player->id);
+            payRent(player, owner, rent(current_asset));
         }
     }
     else if (current_pos->type==OPPO){

@@ -31,13 +31,17 @@ void freeMap(Map *map);
 
 void initMap(Map *map);
 
+void payRent(Player*p1, Player*p2, int rent);
+
 int getStep();
 
-bool consider(Player * player, Asset * asset);
+bool consider(Player * player);
 
 void interactive(Player *player, Map * map);
 
 void buyAsset(Player *player, Asset *asset);
+
+void upgradeAsset(Player *player, Asset *asset);
 
 bool judge(Player *players);
 
