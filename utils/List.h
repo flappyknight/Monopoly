@@ -20,6 +20,8 @@ List *initList(void);
 
 void addItem(List *list, int num);
 
+void *getItem(List *list, int n);
+
 void emptyList(List * list);
 
 void delItem(List *list, int num);

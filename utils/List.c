@@ -59,6 +59,16 @@ void delItem(List *list, int num){
     }
 };
 
+void *getItem(List *list, int n){
+    Node *next_node;
+    next_node =list->head;
+    for (int i=0;i<n; i++){
+        next_node = next_node->next;
+    }
+    return &(next_node->num);
+}
+
+
 
 
 // void insertItem(List *list, int position, int num);

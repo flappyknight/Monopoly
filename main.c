@@ -19,7 +19,10 @@ int main() {
             Player *current_player = players+p;
             if(current_player->stagnant)
                 continue;
-
+            // 考虑是否赎回抵押的资产
+            if(consider(current_player)){
+//                redeem()
+            }
             int steps = getStep();
             stepPlayer(current_player, steps);
             interactive(current_player, &map);
@@ -54,16 +57,6 @@ bool consider(Player * player){
     return true;
 }
 
-bool considerUpgrade(Player * player, Asset * asset){
-    if(player->money > asset->price){
-        if( (rand() % 100 ) >=((int) player->purchase_probability*100)){
-            return false;
-        }
-        return true;
-    }
-    return false;
-}
-
 void buyAsset(Player *player, Asset *asset){
     if(player->money < asset->price){
         printf("Not enough Money to buy this Land\n");
@@ -73,6 +66,7 @@ void buyAsset(Player *player, Asset *asset){
     asset->owner_id = player->id;
     addItem(player->asset_list, asset->id);
 }
+
 
 void upgradeAsset(Player *player, Asset *asset){
     if(asset->house_num<3){
@@ -97,6 +91,14 @@ void upgradeAsset(Player *player, Asset *asset){
     }
 }
 
+void redeem(Player *player, Asset *asset){
+    int mortgage_money = mortgage(asset);
+    if(player->money>(int )(asset->price*MORTGAGE_RATIO)){
+        updateMoney(player, -mortgage_money);
+        asset->is_mortgage = 0;
+    }
+}
+
 
 void payRent(Player*p1, Player*p2, int rent){
     updateMoney(p1, -rent);
@@ -107,23 +109,31 @@ void interactive(Player *player, Map * map){
     MapIndex *current_pos =  (map->map_indexes + player->position);
     if(current_pos->type==ASSET){
         Asset *current_asset = (map->assets)+(current_pos->id);
-        if (current_asset->owner_id==-1){
+        if(!current_asset->is_mortgage){ //如果没有被抵押
+            if (current_asset->owner_id==-1){
 //            考虑购买资产
-            if (consider(player)){
-                buyAsset(player, current_asset);
+                if (consider(player)){
+                    buyAsset(player, current_asset);
+                }
             }
-        }
-        else if(current_asset->owner_id==player->id){
+            else if(current_asset->owner_id==player->id){
 //           考虑是否添置房屋或旅馆
-            if (consider(player)){
-                upgradeAsset(player, current_asset);
+                if (consider(player)){
+                    upgradeAsset(player, current_asset);
+                }
             }
-        }
-        else{
+            else{
 //            计算过路费，并且当前玩家向所属玩家付费
-            Player *owner =  player+(current_asset->owner_id - player->id);
-            payRent(player, owner, rent(current_asset));
-        }
+                Player *owner =  player+(current_asset->owner_id - player->id);
+//            如果付不起过路费
+                int rents = rent(current_asset);
+                if(player->money < rents){
+
+                }
+                payRent(player, owner, rent(current_asset));
+            }
+        };
+
     }
     else if (current_pos->type==OPPO){
 

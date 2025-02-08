@@ -43,6 +43,10 @@ void buyAsset(Player *player, Asset *asset);
 
 void upgradeAsset(Player *player, Asset *asset);
 
+void redeem(Player *player, Asset *asset);
+
+bool hasMortgage(Player *player, Map *map);
+
 bool judge(Player *players);
 
 bool settlement(Player *players, Player *winner);

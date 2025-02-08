@@ -3,6 +3,7 @@
 #define ASSET_FILE "asset.src"
 
 #define TOTAL_ASSET_NUM 100
+#define MORTGAGE_RATIO 0.5
 
 
 typedef enum {land, factory, station} AssetTYPE;
