@@ -20,9 +20,8 @@ int main() {
             if(current_player->stagnant)
                 continue;
             // 考虑是否赎回抵押的资产
-            if(consider(current_player)){
-//                redeem()
-            }
+            redeemParam redeem_param ={.player=current_player, .map=&map};
+            traverseList(players->asset_list, redeem, &redeem_param, NULL);
             int steps = getStep();
             stepPlayer(current_player, steps);
             interactive(current_player, &map);
@@ -91,10 +90,14 @@ void upgradeAsset(Player *player, Asset *asset){
     }
 }
 
-void redeem(Player *player, Asset *asset){
+void redeem(void *item, void * param, void * _){
+    int *asset_id = (int *)item;
+    redeemParam *redeem_param;
+    redeem_param = (redeemParam *) param;
+    Asset *asset = (redeem_param->map->assets) + *asset_id;
     int mortgage_money = mortgage(asset);
-    if(player->money>(int )(asset->price*MORTGAGE_RATIO)){
-        updateMoney(player, -mortgage_money);
+    if(consider(redeem_param->player) && (redeem_param->player->money>(int )(asset->price*MORTGAGE_RATIO))){
+        updateMoney(redeem_param->player, -mortgage_money);
         asset->is_mortgage = 0;
     }
 }

@@ -68,11 +68,15 @@ void *getItem(List *list, int n){
     return &(next_node->num);
 }
 
-
-
-
+void traverseList(List *list, operaFunc func, void *param, void *result){
+    Node *next_node;
+    next_node =list->head;
+    for(int i=0; i<list->count; i++){
+        func(&(next_node->num), param, result);
+        next_node = next_node->next;
+    }
+}
 // void insertItem(List *list, int position, int num);
-
 
 void emptyList(List * list){
     Node *node = list->head;

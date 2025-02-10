@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+typedef void (*operaFunc)(void *item, void *param, void *result);
 
 typedef struct Node{
     int num;
@@ -27,6 +28,8 @@ void emptyList(List * list);
 void delItem(List *list, int num);
 
 bool isEmpty(List *list);
+
+void traverseList(List *list, operaFunc func, void *param, void *result);
 
 void insertItem(List *list, int position, int num);
 

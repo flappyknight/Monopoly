@@ -27,6 +27,11 @@ typedef struct {
     Asset *assets;
 } Map;
 
+typedef struct {
+    Player * player;
+    Map * map
+} redeemParam;
+
 void freeMap(Map *map);
 
 void initMap(Map *map);
@@ -43,7 +48,7 @@ void buyAsset(Player *player, Asset *asset);
 
 void upgradeAsset(Player *player, Asset *asset);
 
-void redeem(Player *player, Asset *asset);
+void redeem(void *asset_id, void * param, void * _);
 
 bool hasMortgage(Player *player, Map *map);
 
