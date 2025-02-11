@@ -27,13 +27,11 @@ typedef struct {
 
 void initializePlayer(Player ** players, int n);
 
-void updateMoney(Player *player, double money);
+void updateMoney(Player *player, int money);
 
 void addProperty(Player *player, void *property);
 
 void removeProperty(Player *player, void *property);
-
-void stepPlayer(Player *player, int steps);
 
 void movePlayer(Player *player, int place);
 

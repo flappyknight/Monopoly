@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef void (*operaFunc)(void *item, void *param, void *result);
+typedef void (*operaFunc)(void *item, void *param, void **result);
 
 typedef struct Node{
     int num;

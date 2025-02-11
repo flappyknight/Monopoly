@@ -8,6 +8,7 @@
 
 #define MAP_FILE "map.src"
 
+#define BONUS 2000
 #define MAPITEM_COUNT 100
 #define MIN_STEP 1
 #define MAX_STEP 12
@@ -29,8 +30,14 @@ typedef struct {
 
 typedef struct {
     Player * player;
-    Map * map
+    Map * map;
 } redeemParam;
+
+typedef struct {
+    Player * player;
+    Map * map;
+    int rents;
+} mortgageParam;
 
 void freeMap(Map *map);
 
@@ -40,6 +47,8 @@ void payRent(Player*p1, Player*p2, int rent);
 
 int getStep();
 
+void stepPlayer(Player *player);
+
 bool consider(Player * player);
 
 void interactive(Player *player, Map * map);
@@ -48,11 +57,11 @@ void buyAsset(Player *player, Asset *asset);
 
 void upgradeAsset(Player *player, Asset *asset);
 
-void redeem(void *asset_id, void * param, void * _);
+void redeemAsset(void *asset_id, void * param, void ** _);
 
 bool hasMortgage(Player *player, Map *map);
 
-bool judge(Player *players);
+bool judge(Player *player);
 
 bool settlement(Player *players, Player *winner);
 

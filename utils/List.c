@@ -73,6 +73,8 @@ void traverseList(List *list, operaFunc func, void *param, void *result){
     next_node =list->head;
     for(int i=0; i<list->count; i++){
         func(&(next_node->num), param, result);
+        if(result != NULL)
+            return;
         next_node = next_node->next;
     }
 }

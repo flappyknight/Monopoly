@@ -1,9 +1,5 @@
 #include "player.h"
 
-void stepPlayer(Player *player, int steps){
-    player->position+=steps;
-}
-
 void initializePlayer(Player ** players, int n){
     Player * items = (Player *) malloc(n*sizeof(Player));
     for(int i=0; i<n; i++){
@@ -16,4 +12,8 @@ void initializePlayer(Player ** players, int n){
         items[i].purchase_probability = INITIAL_PURCHASE_PROBABILITY;
     }
     *players = items;
+}
+
+void updateMoney(Player *player, int money){
+    player->money+= money;
 }

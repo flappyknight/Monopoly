@@ -21,9 +21,9 @@ int main() {
                 continue;
             // 考虑是否赎回抵押的资产
             redeemParam redeem_param ={.player=current_player, .map=&map};
-            traverseList(players->asset_list, redeem, &redeem_param, NULL);
+            traverseList(players->asset_list, redeemAsset, &redeem_param, NULL);
             int steps = getStep();
-            stepPlayer(current_player, steps);
+            stepPlayer(current_player);
             interactive(current_player, &map);
 
         }
@@ -47,6 +47,15 @@ void initMap(Map *map){
 
 int getStep(){
     return rand() % (MAX_STEP - MIN_STEP + 1) + MIN_STEP;
+}
+
+void stepPlayer(Player *player){
+    int steps = getStep();
+    player->position+=steps;
+    player->position %= MAPITEM_COUNT;
+    if((player->position<steps) && player->position!=0){
+        updateMoney(player, BONUS);
+    }
 }
 
 bool consider(Player * player){
@@ -90,7 +99,7 @@ void upgradeAsset(Player *player, Asset *asset){
     }
 }
 
-void redeem(void *item, void * param, void * _){
+void redeemAsset(void *item, void * param, void ** _){
     int *asset_id = (int *)item;
     redeemParam *redeem_param;
     redeem_param = (redeemParam *) param;
@@ -102,10 +111,32 @@ void redeem(void *item, void * param, void * _){
     }
 }
 
+void mortgageAsset(void *item, void * param, void ** result){
+    int *asset_id = (int *)item;
+    mortgageParam *mortgage_param;
+    mortgage_param = (mortgageParam *) param;
+    Asset *asset = (mortgage_param->map->assets) + *asset_id;
+    int mortgage_money = mortgage(asset);
+    updateMoney(mortgage_param->player, mortgage_money);
+    if(mortgage_param->player->money>mortgage_param->rents){
+        *result = asset_id;
+    }
+}
+
 
 void payRent(Player*p1, Player*p2, int rent){
     updateMoney(p1, -rent);
     updateMoney(p2, rent);
+}
+
+bool judge(Player *player){
+    if(player->money<0){
+        player->stagnant=-1;
+        return false;
+    }
+    else{
+        return true;
+    }
 }
 
 void interactive(Player *player, Map * map){
@@ -131,9 +162,13 @@ void interactive(Player *player, Map * map){
 //            如果付不起过路费
                 int rents = rent(current_asset);
                 if(player->money < rents){
-
+                //抵押资产
+                    mortgageParam mortgage_param = {.player=player,.map=map, .rents=rents};
+                    int * flag = NULL;
+                    traverseList(player->asset_list, mortgageAsset, &mortgage_param, flag);
                 }
                 payRent(player, owner, rent(current_asset));
+                judge(player);
             }
         };
 
