@@ -12,11 +12,11 @@ int main() {
     initializePlayer(&players, PLAYER_COUNT);
 
     int round =0;
-    Player *winner;
 
     while(true){
         for (int p=0; p<PLAYER_COUNT;p++){
             Player *current_player = players+p;
+            passJail(players);
             if(current_player->stagnant)
                 continue;
             // 考虑是否赎回抵押的资产
@@ -27,7 +27,7 @@ int main() {
             interactive(current_player, &map);
 
         }
-    if (settlement(players, winner))
+    if (settlement(players))
         break;
     round++;
     }
@@ -139,6 +139,47 @@ bool judge(Player *player){
     }
 }
 
+void sendToJail(Player *player){
+    player->stagnant = 1;
+}
+
+void passJail(Player *player){
+    for(int i=0;i<MAX_PLAYERS;i++){
+        if(player[i].stagnant>0){
+            player[i].stagnant -=1;
+        }
+    }
+}
+
+void opportunity(Player *player){
+
+}
+
+void destiny(Player *player){
+
+}
+
+void payTax(Player *player){
+    if (!isEmpty(player->asset_list))
+        updateMoney(player, -TAX);
+}
+
+bool settlement(Player *players){
+    int alive_players = 4;
+    for(int i=0;i<MAX_PLAYERS;i++){
+        if(players[i].stagnant==-1){
+            alive_players -=1;
+        }
+        else{
+            showInfo(players+i);
+        }
+    }
+    if(alive_players==1)
+        return true;
+    else
+        return false;
+}
+
 void interactive(Player *player, Map * map){
     MapIndex *current_pos =  (map->map_indexes + player->position);
     if(current_pos->type==ASSET){
@@ -174,22 +215,20 @@ void interactive(Player *player, Map * map){
 
     }
     else if (current_pos->type==OPPO){
+        opportunity(player);
 
     }
     else if (current_pos->type==DEST){
-
-    }
-    else if (current_pos->type==START){
-
+        destiny(player);
     }
     else if (current_pos->type==JAIL){
-
+        sendToJail(player);
     }
     else if (current_pos->type==PARK){
-
+        //do nothing
     }
     else if (current_pos->type==TAX){
-
+        payTax(player);
     }
 
 }

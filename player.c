@@ -17,3 +17,8 @@ void initializePlayer(Player ** players, int n){
 void updateMoney(Player *player, int money){
     player->money+= money;
 }
+
+
+void showInfo(Player *player){
+
+}

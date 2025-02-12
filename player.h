@@ -29,6 +29,8 @@ void initializePlayer(Player ** players, int n);
 
 void updateMoney(Player *player, int money);
 
+void showInfo(Player *player);
+
 void addProperty(Player *player, void *property);
 
 void removeProperty(Player *player, void *property);

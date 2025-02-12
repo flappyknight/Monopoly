@@ -12,6 +12,7 @@
 #define MAPITEM_COUNT 100
 #define MIN_STEP 1
 #define MAX_STEP 12
+#define LAND_TAX 800
 
 typedef enum {ASSET, OPPO, DEST, START, JAIL, PARK, TAX} MapType;
 
@@ -59,10 +60,20 @@ void upgradeAsset(Player *player, Asset *asset);
 
 void redeemAsset(void *asset_id, void * param, void ** _);
 
-bool hasMortgage(Player *player, Map *map);
+void opportunity(Player *player);
+
+void sendToJail(Player *player);
+
+void passJail(Player *player);
+
+void destiny(Player *player);
+
+void payTax(Player *player);
+
+
 
 bool judge(Player *player);
 
-bool settlement(Player *players, Player *winner);
+bool settlement(Player *players);
 
 
